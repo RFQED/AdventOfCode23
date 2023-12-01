@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include<stdio.h>
-#include<ctype.h>
+#include <stdio.h>
+#include <ctype.h>
 
 using namespace std;
 
@@ -47,16 +47,16 @@ int main() {
       std::cout << "first digit found is " << firstChar << "\n";
       std::cout << "last digit found is " << lastChar << "\n";
 
-      string resulting_number = firstChar + lastChar;
-      std::cout << "resulting number = " << resulting_number << "\n"; 
-      
+      string resulting_string = firstChar + lastChar;
+      std::cout << "resulting number = " << resulting_string << "\n"; 
+
+      int resulting_num = std::stoi(resulting_string);
+
+      running_total+= resulting_num;
     }
 
-    // combine the first and last to one number
-    
-    
   }
-
+  std::cout << "Final result == " << running_total << "\n";
   return 0;
 
 }
