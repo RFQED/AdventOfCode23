@@ -9,12 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up C++ environment
-      uses: actions/setup-cpp@v1
-      with:
-        compiler: 'gcc'
-        version: '11'
-
     - name: Detect Changed Directories
       id: changed_dirs
       run: |
@@ -25,6 +19,10 @@ jobs:
       run: |
         for dir in $CHANGED_DIRS; do
           echo "Building and running $dir"
-          g++ -std=c++17 -o $dir/main $dir/main.cpp
-          ./$dir/main
+	  cd $dir
+	  chmod +x ./configure
+	  ./configure
+          make
+	  main
+	  cd ..
         done
