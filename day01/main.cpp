@@ -19,9 +19,6 @@ int main() {
     string line;
 
     while(getline(input_file, line)){
-
-      std::cout << line << "\n";
-
       string firstChar;
       bool firstFound = false;
       string lastChar;
@@ -44,14 +41,9 @@ int main() {
 	  }
 	}
       }
-      std::cout << "first digit found is " << firstChar << "\n";
-      std::cout << "last digit found is " << lastChar << "\n";
 
       string resulting_string = firstChar + lastChar;
-      std::cout << "resulting number = " << resulting_string << "\n"; 
-
       int resulting_num = std::stoi(resulting_string);
-
       running_total+= resulting_num;
     }
 
