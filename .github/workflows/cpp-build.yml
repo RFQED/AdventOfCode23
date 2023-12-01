@@ -16,13 +16,13 @@ jobs:
 
     - name: Build and Run Updated Days
       if: env.CHANGED_DIRS != ''
-      run: |
-        for dir in $CHANGED_DIRS; do
-          echo "Building and running $dir"
-	  cd $dir
-	  chmod +x ./configure
-	  ./configure
-          make
-	  main
-	  cd ..
-        done
+        run: |
+          for dir in $CHANGED_DIRS; do
+            echo "Building and running $dir"
+	    cd $dir
+	    chmod +x ./configure
+	    ./configure
+            make
+	    main
+	    cd ..
+          done
