@@ -1,4 +1,4 @@
-name: AventOfCode
+name: AdventOfCode
 
 on: [push]
 
@@ -8,21 +8,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Fetch all history
 
       - name: Detect Changed Directories
         id: changed_dirs
         run: |
-          echo "CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^day' | xargs -I {} dirname {} | uniq)" >> $GITHUB_ENV
+          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^day' | uniq)
+          echo "CHANGED_DIRS=${CHANGED_DIRS}" >> $GITHUB_ENV
 
       - name: Build and Run Updated Days
         if: env.CHANGED_DIRS != ''
         run: |
           for dir in $CHANGED_DIRS; do
             echo "Building and running $dir"
-            cd $dir
-            chmod +x ./configure
-            ./configure
-            make
-            ./main
-            cd ..
+            (cd $dir && ./configure && make && ./main)
           done
