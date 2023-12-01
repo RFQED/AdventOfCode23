@@ -1,0 +1,30 @@
+name: AventOfCode
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up C++ environment
+      uses: actions/setup-cpp@v1
+      with:
+        compiler: 'gcc'
+        version: '11'
+
+    - name: Detect Changed Directories
+      id: changed_dirs
+      run: |
+        echo "CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^day' | xargs -I {} dirname {} | uniq)" >> $GITHUB_ENV
+
+    - name: Build and Run Updated Days
+      if: env.CHANGED_DIRS != ''
+      run: |
+        for dir in $CHANGED_DIRS; do
+          echo "Building and running $dir"
+          g++ -std=c++17 -o $dir/main $dir/main.cpp
+          ./$dir/main
+        done
