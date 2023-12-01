@@ -7,20 +7,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Fetch all history
+    - uses: actions/checkout@v2
 
-      - name: Detect Changed Directories
-        id: changed_dirs
-        run: |
-          CHANGED_DIRS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^day' | uniq)
-          echo "CHANGED_DIRS=${CHANGED_DIRS}" >> $GITHUB_ENV
+    - name: Read Current Day
+      id: read_day
+      run: |
+        current_day=$(cat current_day.txt)
+        echo "Current day is $current_day"
+        echo "CURRENT_DAY=$current_day" >> $GITHUB_ENV
 
-      - name: Build and Run Updated Days
-        if: env.CHANGED_DIRS != ''
-        run: |
-          for dir in $CHANGED_DIRS; do
-            echo "Building and running $dir"
-            (cd $dir && ./configure && make && ./main)
-          done
+    - name: Build and Run Current Day
+      run: |
+        cd $CURRENT_DAY
+        chmod +x ./configure
+        ./configure
+        make
+        ./main
