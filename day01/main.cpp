@@ -87,6 +87,14 @@ string replaceStringWithNum(string line)
     }
   }
 
+    for (auto const &num : number_map){
+    std::size_t found = line.find(num.first);
+
+    if (found != std::string::npos){
+      line.replace(found, num.first.length(), num.second);
+    }
+  }
+
   std::cout << "line out == " << line << "\n";
 
   //std::size_t found = str.find(str2);
