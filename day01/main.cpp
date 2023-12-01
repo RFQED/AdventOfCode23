@@ -22,16 +22,15 @@ int main() {
 
       std::cout << line << "\n";
 
-      int firstDigit = 0;
+      string firstChar;
       bool firstFound = false;
-      int lastDigit = 0;
+      string lastChar;
       bool lastFound = false;
       
       for (int i = 0; i < line.length(); i++){
 	if (!firstFound){
 	  if (isdigit(line[i])){
-	    char firstChar = line[i];
-	    firstDigit = firstChar - '0';
+	    firstChar = line[i];
 	    firstFound = true;
 	  }
 	}
@@ -40,15 +39,17 @@ int main() {
       for (int i = line.length() -1 ; i >= 0; i--){
 	if (!lastFound){	
 	  if (isdigit(line[i])){
-	    char lastChar = line[i];
-	    lastDigit = lastChar - '0';
+	    lastChar = line[i];
 	    lastFound = true;
 	  }
 	}
       }
-      std::cout << "first digit found is " << firstDigit << "\n";
-      std::cout << "last digit found is " << lastDigit << "\n";
+      std::cout << "first digit found is " << firstChar << "\n";
+      std::cout << "last digit found is " << lastChar << "\n";
 
+      string resulting_number = firstChar + lastChar;
+      std::cout << "resulting number = " << resulting_number << "\n"; 
+      
     }
 
     // combine the first and last to one number
