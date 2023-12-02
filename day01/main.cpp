@@ -81,7 +81,5 @@ string replaceStringWithNum(string line)
     }
   }
 
-  //std::size_t found = str.find(str2);
-  string final_line = line;
-  return final_line;
+  return line;
 }
