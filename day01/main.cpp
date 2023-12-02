@@ -59,8 +59,6 @@ int main(){
 
 string replaceStringWithNum(string line)
 {
-  std::cout << "line in " << line << "\n";
-
   map<string, string> number_map;
   number_map["one"] = "o1e";
   number_map["two"] = "t2o";
@@ -94,8 +92,6 @@ string replaceStringWithNum(string line)
       line.replace(found, num.first.length(), num.second);
     }
   }
-
-  std::cout << "line out == " << line << "\n";
 
   //std::size_t found = str.find(str2);
   string final_line = line;
