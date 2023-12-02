@@ -36,7 +36,8 @@ int main(){
         map<string, string> colour_and_count; // string to int here
 
         for (int j=0; j < set.size(); j++){
-          std::cout << "set [" << j << "] == '" << set[j].erase(0, 1) << "'\n";
+          set[j].erase(0, 1);
+          //std::cout << "set [" << j << "] == '" << set[j] << "'\n";
           vector<string> cubes = split_input_line(set[j], " ");
           colour_and_count.insert({ cubes[0], cubes[1] });  // set cubes[1] to be an int
         }
@@ -46,7 +47,7 @@ int main(){
         // add up the IDs of the games that would have been possible
 
         for(auto it = colour_and_count.cbegin(); it != colour_and_count.cend(); ++it){
-          std::cout << " '" << it->first << "' = '" << it->second << "'\n";
+          //std::cout << " '" << it->first << "' = '" << it->second << "'\n";
 
           if (it->second == "red"){
             if (std::stoi(it->first) > 12){
