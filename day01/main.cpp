@@ -60,6 +60,9 @@ string replaceStringWithNum(string line)
   // replace the text with digits 
   // keep the start and end of the digit string
   // which could be used subsequently to find digits with
+  // for example,
+  // eightwoeight -> 828 but if we replace two fully then we get eigh28
+  
   map<string, string> number_map;
   number_map["one"] = "o1e";
   number_map["two"] = "t2o";
