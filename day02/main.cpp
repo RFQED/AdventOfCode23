@@ -21,7 +21,7 @@ int main(){
     string line;
 
     while (getline(input_file, line)){
-      std::cout << "line == " << line << "\n";
+      //std::cout << "line == " << line << "\n";
 
       vector<string> input_line = split_input_line(line, ":");
 
@@ -31,7 +31,7 @@ int main(){
       vector<string> game = split_input_line(input_line[1], ";");
       
       for (int i = 0; i < game.size(); i++){
-        std::cout << "game[" << i << "] == '" << game[i] << "'\n";
+        //std::cout << "game[" << i << "] == '" << game[i] << "'\n";
         vector<string> set = split_input_line(game[i], ",");
         map<string, string> colour_and_count; // string to int here
 
