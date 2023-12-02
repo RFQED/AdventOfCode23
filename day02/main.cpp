@@ -21,52 +21,74 @@ int main(){
     string line;
 
     while (getline(input_file, line)){
-      //std::cout << "line == " << line << "\n";
+      std::cout << "    \n"; 
+      std::cout << "line == " << line << "\n";
 
       vector<string> input_line = split_input_line(line, ":");
 
       int game_num = std::stoi(input_line[0].erase(0,4));
-      bool impossible_game = false;
+      bool redConditionMet = false;
+      bool greenConditionMet = false;
+      bool blueConditionMet = false;
+      bool possibleGame = false;
 
       vector<string> game = split_input_line(input_line[1], ";");
       
       for (int i = 0; i < game.size(); i++){
-        //std::cout << "game[" << i << "] == '" << game[i] << "'\n";
-        vector<string> set = split_input_line(game[i], ",");
-        map<string, string> colour_and_count; // string to int here
-
-        for (int j=0; j < set.size(); j++){
-          set[j].erase(0, 1);
-          //std::cout << "set [" << j << "] == '" << set[j] << "'\n";
-          vector<string> cubes = split_input_line(set[j], " ");
-          colour_and_count.insert({ cubes[0], cubes[1] });  // set cubes[1] to be an int
+        if (redConditionMet || greenConditionMet || blueConditionMet){
+          break;
         }
+        else{
+          std::cout << "game[" << i << "] == '" << game[i] << "'\n";
+          vector<string> set = split_input_line(game[i], ",");
+          map<string, string> colour_and_count; // string to int here
 
-        // Condition is that the bag only has 12 red cubes, 13 green cubes, and 14 blue cubes
-        // can see if game is possible from these numbers
-        // add up the IDs of the games that would have been possible
-
-        for(auto it = colour_and_count.cbegin(); it != colour_and_count.cend(); ++it){
-          //std::cout << " '" << it->first << "' = '" << it->second << "'\n";
-
-          if (it->second == "red"){
-            if (std::stoi(it->first) > 12){
-              impossible_game = true;
-            }
+          for (int j=0; j < set.size(); j++){
+            set[j].erase(0, 1);
+            std::cout << "set [" << j << "] == '" << set[j] << "'\n";
+            vector<string> cubes = split_input_line(set[j], " ");
+            colour_and_count.insert({ cubes[0], cubes[1] });  // set cubes[1] to be an int
           }
-          if (it->second == "green"){
-            if (std::stoi(it->first) > 13){
-              impossible_game = true;
+
+          // Condition is that the bag only has 12 red cubes, 13 green cubes, and 14 blue cubes
+          // can see if game is possible from these numbers
+          // add up the IDs of the games that would have been possible
+
+          for(auto it = colour_and_count.cbegin(); it != colour_and_count.cend(); ++it){
+            std::cout << " '" << it->first << "' = '" << it->second << "'\n";
+
+            if (it->second == "red"){
+              if (std::stoi(it->first) > 12){
+                redConditionMet = true;
+                break;
+              }
             }
-          }
-          if (it->second == "blue"){
-            if (std::stoi(it->first) > 14){
-              impossible_game = true;
+            if (it->second == "green"){
+              if (std::stoi(it->first) > 13){
+                greenConditionMet = true;
+                break;
+              }
+            }
+            if (it->second == "blue"){
+              if (std::stoi(it->first) > 14){
+                blueConditionMet = true;
+                break;
+              }
             }
           }
         }
       }
-      if (impossible_game == true){
+
+      if (redConditionMet || greenConditionMet || blueConditionMet) {
+          possibleGame = false;
+      } else {
+          possibleGame = true;
+      }
+
+
+      if (possibleGame == true){
+        std::cout << "Found a possible game\n";
+        std::cout << line << "\n";
         running_total += game_num;
       }
     }
