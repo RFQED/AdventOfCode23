@@ -59,6 +59,9 @@ int main(){
 
 string replaceStringWithNum(string line)
 {
+  // replace the text with digits 
+  // keep the start and end of the digit string
+  // which could be used subsequently to find digits with
   map<string, string> number_map;
   number_map["one"] = "o1e";
   number_map["two"] = "t2o";
@@ -72,24 +75,9 @@ string replaceStringWithNum(string line)
 
   for (auto const &num : number_map){
     std::size_t found = line.find(num.first);
-
-    if (found != std::string::npos){
+    while (found != std::string::npos) {
       line.replace(found, num.first.length(), num.second);
-    }
-  }
-  for (auto const &num : number_map){
-    std::size_t found = line.find(num.first);
-
-    if (found != std::string::npos){
-      line.replace(found, num.first.length(), num.second);
-    }
-  }
-
-    for (auto const &num : number_map){
-    std::size_t found = line.find(num.first);
-
-    if (found != std::string::npos){
-      line.replace(found, num.first.length(), num.second);
+      found = line.find(num.first, found + num.second.length());
     }
   }
 
