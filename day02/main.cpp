@@ -24,13 +24,28 @@ int main(){
       std::cout << "line == " << line << "\n";
 
       vector<string> input_line = split_input_line(line, ":");
-
       vector<string> game = split_input_line(input_line[1], ";");
-
+      
+      
       for (int i = 0; i < game.size(); i++){
-        std::cout << "game[" << i << "] == " << game[i] << "\n";
-      }
+        std::cout << "game[" << i << "] == '" << game[i] << "'\n";
 
+        vector<string> set = split_input_line(game[i], ",");
+        map<string, string> colour_and_count;
+
+        for (int j=0; j < set.size(); j++){
+          std::cout << "set [" << j << "] == '" << set[j].erase(0, 1) << "'\n";
+          vector<string> cubes = split_input_line(set[j], " ");
+
+          colour_and_count.insert({ cubes[0], cubes[1] }); 
+        }
+
+        for(auto it = colour_and_count.cbegin(); it != colour_and_count.cend(); ++it)
+        {
+            std::cout << " '" << it->first << "' = '" << it->second << "'\n";
+        }
+
+      }
     }
   }
   std::cout << "Final result == " << running_total << "\n";
