@@ -1,8 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdio.h>
-#include <ctype.h>
 #include <map>
 
 using namespace std;
