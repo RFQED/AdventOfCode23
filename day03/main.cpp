@@ -15,22 +15,42 @@ bool isDigit(char ch) {
     return ch >= '0' && ch <= '9';
 }
 
-std::string findNumber(const std::vector<std::vector<char>>& matrix, int x, int y_start) {
+// std::string findNumber(const std::vector<std::vector<char>>& matrix, int x, int y_start) {
+//     std::string number = "";
+
+//     // Move backwards to find the start of the number
+//     int y = y_start;
+//     while (y >= 0 && isDigit(matrix[x][y])) {
+//         --y;
+//     }
+//     // Now y is the position just before the start of the number
+
+//     // Move forward to build the whole number
+//     for (int j = y + 1; j < matrix[x].size() && isDigit(matrix[x][j]); ++j) {
+//         number += matrix[x][j];
+//     }
+
+//     return number;
+// }
+
+std::pair<std::string, int> findNumber(const std::vector<std::vector<char>>& matrix, int x, int y_start) {
     std::string number = "";
+    int y = y_start;
 
     // Move backwards to find the start of the number
-    int y = y_start;
     while (y >= 0 && isDigit(matrix[x][y])) {
         --y;
     }
+
     // Now y is the position just before the start of the number
+    int start_pos = y + 1; // Start position of the number
 
     // Move forward to build the whole number
-    for (int j = y + 1; j < matrix[x].size() && isDigit(matrix[x][j]); ++j) {
+    for (int j = start_pos; j < matrix[x].size() && isDigit(matrix[x][j]); ++j) {
         number += matrix[x][j];
     }
 
-    return number;
+    return {number, start_pos};
 }
 
 
@@ -42,7 +62,7 @@ int main(){
   int x_length = 0;
   int y_length = 0;
 
-  string filename = "input_test3.txt";
+  string filename = "inputs.txt";
 
   fstream input_file;
   input_file.open(filename, ios::in);
@@ -91,9 +111,7 @@ int main(){
         bool symbol_found = checkSurrounding(A, i, j);
 
         if (symbol_found){
-          std::string number = findNumber(A, i, j);
-          int num_length = number.size();
-
+          auto [number, start_pos] = findNumber(A, i, j);
           if (!number.empty()) {
               std::cout << "Number found at (" << i << ", " << j << "): " << number << std::endl;
               running_total += std::stoi(number);
@@ -102,12 +120,11 @@ int main(){
           }
           
           // Skip the rest of the digits in this number
-          // Adjusting j to skip only the digits of the current number
-          j += num_length - 1; 
+          j = start_pos + number.size() - 1;
         }
       }
     }
-  }
+  } 
   std::cout << " final sum is " << running_total << "\n";
   return 0;
 }
