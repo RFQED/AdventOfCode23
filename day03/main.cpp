@@ -15,24 +15,6 @@ bool isDigit(char ch) {
     return ch >= '0' && ch <= '9';
 }
 
-// std::string findNumber(const std::vector<std::vector<char>>& matrix, int x, int y_start) {
-//     std::string number = "";
-
-//     // Move backwards to find the start of the number
-//     int y = y_start;
-//     while (y >= 0 && isDigit(matrix[x][y])) {
-//         --y;
-//     }
-//     // Now y is the position just before the start of the number
-
-//     // Move forward to build the whole number
-//     for (int j = y + 1; j < matrix[x].size() && isDigit(matrix[x][j]); ++j) {
-//         number += matrix[x][j];
-//     }
-
-//     return number;
-// }
-
 std::pair<std::string, int> findNumber(const std::vector<std::vector<char>>& matrix, int x, int y_start) {
     std::string number = "";
     int y = y_start;
