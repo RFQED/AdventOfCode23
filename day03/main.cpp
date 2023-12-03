@@ -9,7 +9,7 @@ std::vector< std::vector<char> > square_matrix( std::size_t m ){
    return std::vector< std::vector<char> >( m, std::vector<char>(m) ) ;
 }
 
-bool is_digit(int x);
+bool is_digit(char x);
 bool is_symbol(char x);
 
 
@@ -79,17 +79,22 @@ int main(){
 
   for(int i = 0 ; i < y_length ; ++i ){
     for( int j = 0 ; j < x_length; ++j ){
-
       //std::cout << A[i][j];
-      int val = A[i][j] - '0';
+      char val = A[i][j];
 
       if (is_digit(val)){
         num_found = true;
         start_i = i;
         end_i = i;
+        start_j = j;
 
         sec_val = A[i][j+1] - '0';
         if (is_digit(sec_val)){
+
+          if (i+2 > 140){
+            continue;
+          }
+
           thrd_val = A[i][j+2] - '0';
           is_sec_val = true;
           end_j = j+1;
@@ -99,15 +104,20 @@ int main(){
           }
         }
       }
+
+
+
       if (num_found){
         std::cout << "num found " << val << " is 2nd val = " << sec_val << " is 3rd val " << thrd_val << " \n ";
+        std::cout << "  on row = " << start_i << " column = " << start_j << " \n ";
+
         // check if first row
         if (i == 0){
           std::cout << "on first row \n";
-          for (int l = start_i; l < end_i+1; l++){
-            std::cout << "in loop over l \n";
-            for (int m = j; m < j+2; m++){
-              std::cout << "in loop over m \n";
+          for (int l = start_i; l < end_i+2; l++){
+            std::cout << "in loop over l (" << l << ") \n";
+            for (int m = start_j-1; m < end_j+2; m++){
+              std::cout << "  in loop over m (" << m << ")\n";
 
               if (is_symbol(A[l][m])){
                 symbol_found = true;
@@ -116,16 +126,23 @@ int main(){
             }
           }          
         }
-        for (int l = start_i-1; l < end_i+1; l++){
-          for (int m=j-1; m < j+2; m++){
-            if (is_symbol(A[l][m])){
-              symbol_found = true;
-              std::cout << "symbol found at l = " << l << " m = " << m << " = " << A[l][m] << "\n";
+        else{
+          for (int l = start_i-1; l < end_i+2; l++){
+            for (int m = start_j-1; m < end_j+2; m++){
+              if (l < 0 || l > 140 || m < 0 || m > 140){
+                std::cout << "out of range.. skipping \n";
+                continue;
+              }
+              if (is_symbol(A[l][m])){
+                symbol_found = true;
+                std::cout << "symbol found at l = " << l << " m = " << m << " = " << A[l][m] << "\n";
+              }
             }
           }
         }
 
         if (symbol_found){
+          std::cout << "Found a nearby symbol \n";
           int number;
           number = number + val; 
 
@@ -142,8 +159,8 @@ int main(){
   return 0;
 }
 
-bool is_digit(int x){
-  if ((x > -1) && (x < 10)){
+bool is_digit(char x){
+  if ((x >= 48) && (x <= 57)){
     return true;
   }
   else{
@@ -152,6 +169,7 @@ bool is_digit(int x){
 }
 
 bool is_symbol(char x){
+  std::cout << "     checking if symbol " << x << "\n";
   if (x == 46){
     return false;
   }
