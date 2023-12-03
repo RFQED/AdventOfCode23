@@ -12,6 +12,7 @@ std::vector< std::vector<char> > square_matrix( std::size_t m ){
 bool is_digit(char x);
 bool is_symbol(char x);
 bool checkSurrounding(const std::vector<std::vector<char>>& matrix, int x, int y);
+bool isSymbol(char ch);
 
 // todo combine this is digit with the one above.
 // they use difff methods of digit finding, testing
@@ -19,11 +20,18 @@ bool isDigit(char ch) {
     return ch >= '0' && ch <= '9';
 }
 
-
-std::string findNumber(const std::vector<std::vector<char>>& matrix, int x, int y) {
+std::string findNumber(const std::vector<std::vector<char>>& matrix, int x, int y_start) {
     std::string number = "";
 
-    for (int j = y; j < matrix[x].size() && isDigit(matrix[x][j]); ++j) {
+    // Move backwards to find the start of the number
+    int y = y_start;
+    while (y >= 0 && isDigit(matrix[x][y])) {
+        --y;
+    }
+    // Now y is the position just before the start of the number
+
+    // Move forward to build the whole number
+    for (int j = y + 1; j < matrix[x].size() && isDigit(matrix[x][j]); ++j) {
         number += matrix[x][j];
     }
 
@@ -39,7 +47,7 @@ int main(){
   int x_length = 0;
   int y_length = 0;
 
-  string filename = "input_test.txt";
+  string filename = "input_test3.txt";
 
   fstream input_file;
   input_file.open(filename, ios::in);
@@ -109,7 +117,7 @@ int main(){
             j += number.size() - 1; // Skip the rest of the digits in this number
         }
         running_total += std::stoi(number);
-        std::cout << " Digit with adjacent symbol found at " << i << ", " << j << "\n";
+        std::cout << " Digit with adjacent symbol found at " << i << ", " << j << " " << number << "\n";
         std::cout << "  Running total = " << running_total << "\n";
       }
     }
@@ -131,7 +139,12 @@ bool is_digit(char x){
 
 
 bool isSymbol(char ch) {
-    return (ch >= 33 && ch <= 48 && ch != '.') || ch == 47 || ch == 61 || ch == 64;
+  if (ch < 48 || ch > 57){
+    if (ch != 46){
+      return true;
+    }
+  }
+  return false;
 }
 
 bool checkSurrounding(const std::vector<std::vector<char>>& matrix, int x, int y) {
