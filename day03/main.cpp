@@ -95,10 +95,10 @@ int main(){
         if (symbol_found){
           auto [number, start_pos] = findNumber(A, i, j);
           if (!number.empty()) {
-              std::cout << "Number found at (" << i << ", " << j << "): " << number << std::endl;
+              //std::cout << "Number found at (" << i << ", " << j << "): " << number << std::endl;
               running_total += std::stoi(number);
-              std::cout << " Digit with adjacent symbol found at " << i << ", " << j << " " << number << "\n";
-              std::cout << "  Running total = " << running_total << "\n";
+              //std::cout << " Digit with adjacent symbol found at " << i << ", " << j << " " << number << "\n";
+              //std::cout << "  Running total = " << running_total << "\n";
           }
           
           // Skip the rest of the digits in this number
