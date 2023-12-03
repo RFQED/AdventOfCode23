@@ -9,13 +9,8 @@ std::vector< std::vector<char> > square_matrix( std::size_t m ){
    return std::vector< std::vector<char> >( m, std::vector<char>(m) ) ;
 }
 
-bool is_digit(char x);
-bool is_symbol(char x);
 bool checkSurrounding(const std::vector<std::vector<char>>& matrix, int x, int y);
 bool isSymbol(char ch);
-
-// todo combine this is digit with the one above.
-// they use difff methods of digit finding, testing
 bool isDigit(char ch) {
     return ch >= '0' && ch <= '9';
 }
@@ -84,41 +79,32 @@ int main(){
       }
     row_num++;
    }
-
-   // std::cout << "Final result == " << running_total << "\n";
   }
 
   bool num_found = false;
   bool symbol_found = false;
 
-  // 2D Array Layout
-  //  Arr[0][0]  Arr[0][1]  Arr[0][2]
-  //  Arr[1][0]  Arr[1][1]  Arr[1][2]
-  //  Arr[2][0]  Arr[2][1]  Arr[2][2]
-
-
   for(int i = 0 ; i < y_length ; ++i ){
     for( int j = 0 ; j < x_length; ++j ){
-      //std::cout << A[i][j];
-      symbol_found = false;
-
       char val = A[i][j];
-      if (is_digit(val)){
-        std::cout << "found digit = " << val << "\n";
-        symbol_found = checkSurrounding(A, i, j);
-      }
-    
-      if (symbol_found){
+      if (isDigit(val)){
+        bool symbol_found = checkSurrounding(A, i, j);
 
-        std::string number = findNumber(A, i, j);
+        if (symbol_found){
+          std::string number = findNumber(A, i, j);
+          int num_length = number.size();
 
-        if (!number.empty()) {
-            std::cout << "Number found at (" << i << ", " << j << "): " << number << std::endl;
-            j += number.size() - 1; // Skip the rest of the digits in this number
+          if (!number.empty()) {
+              std::cout << "Number found at (" << i << ", " << j << "): " << number << std::endl;
+              running_total += std::stoi(number);
+              std::cout << " Digit with adjacent symbol found at " << i << ", " << j << " " << number << "\n";
+              std::cout << "  Running total = " << running_total << "\n";
+          }
+          
+          // Skip the rest of the digits in this number
+          // Adjusting j to skip only the digits of the current number
+          j += num_length - 1; 
         }
-        running_total += std::stoi(number);
-        std::cout << " Digit with adjacent symbol found at " << i << ", " << j << " " << number << "\n";
-        std::cout << "  Running total = " << running_total << "\n";
       }
     }
   }
@@ -126,23 +112,9 @@ int main(){
   return 0;
 }
 
-bool is_digit(char x){
-  if ((x >= 48) && (x <= 57)){
-    return true;
-  }
-  else{
-    return false;
-  }
-}
-
-
-
-
 bool isSymbol(char ch) {
-  if (ch < 48 || ch > 57){
-    if (ch != 46){
-      return true;
-    }
+  if (ch == '#' || ch == '$' || ch == '%' || ch == '&' || ch == '*' || ch == '+' || ch == '-' || ch == '/' || ch == '=' || ch == '@'){
+    return true;
   }
   return false;
 }
