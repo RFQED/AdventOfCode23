@@ -11,6 +11,24 @@ std::vector< std::vector<char> > square_matrix( std::size_t m ){
 
 bool is_digit(char x);
 bool is_symbol(char x);
+bool checkSurrounding(const std::vector<std::vector<char>>& matrix, int x, int y);
+
+// todo combine this is digit with the one above.
+// they use difff methods of digit finding, testing
+bool isDigit(char ch) {
+    return ch >= '0' && ch <= '9';
+}
+
+
+std::string findNumber(const std::vector<std::vector<char>>& matrix, int x, int y) {
+    std::string number = "";
+
+    for (int j = y; j < matrix[x].size() && isDigit(matrix[x][j]); ++j) {
+        number += matrix[x][j];
+    }
+
+    return number;
+}
 
 
 using namespace std;
@@ -21,8 +39,10 @@ int main(){
   int x_length = 0;
   int y_length = 0;
 
+  string filename = "input_test.txt";
+
   fstream input_file;
-  input_file.open("inputs.txt", ios::in);
+  input_file.open(filename, ios::in);
 
   string line_in_loop;
 
@@ -33,7 +53,7 @@ int main(){
   input_file.close();
 
   string line_find_length;
-  input_file.open("inputs.txt", ios::in);
+  input_file.open(filename, ios::in);
   getline(input_file, line_find_length); 
   x_length = line_find_length.length();
   input_file.close();
@@ -45,7 +65,7 @@ int main(){
 
   int running_total = 0;
 
-  input_file.open("inputs.txt", ios::in);
+  input_file.open(filename, ios::in);
   if (input_file.is_open()){
     string line;
     int row_num = 0;
@@ -62,14 +82,6 @@ int main(){
 
   bool num_found = false;
   bool symbol_found = false;
-  int sec_val;
-  bool is_sec_val;
-  int thrd_val;
-  bool is_thrd_val;
-  int start_i;
-  int end_i;
-  int start_j;
-  int end_j;
 
   // 2D Array Layout
   //  Arr[0][0]  Arr[0][1]  Arr[0][2]
@@ -80,82 +92,29 @@ int main(){
   for(int i = 0 ; i < y_length ; ++i ){
     for( int j = 0 ; j < x_length; ++j ){
       //std::cout << A[i][j];
+      symbol_found = false;
+
       char val = A[i][j];
-
       if (is_digit(val)){
-        num_found = true;
-        start_i = i;
-        end_i = i;
-        start_j = j;
-
-        sec_val = A[i][j+1] - '0';
-        if (is_digit(sec_val)){
-
-          if (i+2 > 140){
-            continue;
-          }
-
-          thrd_val = A[i][j+2] - '0';
-          is_sec_val = true;
-          end_j = j+1;
-          if (is_digit(thrd_val)){
-            end_j = j+2;
-            is_thrd_val = true;
-          }
-        }
+        std::cout << "found digit = " << val << "\n";
+        symbol_found = checkSurrounding(A, i, j);
       }
+    
+      if (symbol_found){
 
+        std::string number = findNumber(A, i, j);
 
-
-      if (num_found){
-        std::cout << "num found " << val << " is 2nd val = " << sec_val << " is 3rd val " << thrd_val << " \n ";
-        std::cout << "  on row = " << start_i << " column = " << start_j << " \n ";
-
-        // check if first row
-        if (i == 0){
-          std::cout << "on first row \n";
-          for (int l = start_i; l < end_i+2; l++){
-            std::cout << "in loop over l (" << l << ") \n";
-            for (int m = start_j-1; m < end_j+2; m++){
-              std::cout << "  in loop over m (" << m << ")\n";
-
-              if (is_symbol(A[l][m])){
-                symbol_found = true;
-                std::cout << "symbol found at l = " << l << " m = " << m << " = " << A[l][m] << "\n";
-              }
-            }
-          }          
+        if (!number.empty()) {
+            std::cout << "Number found at (" << i << ", " << j << "): " << number << std::endl;
+            j += number.size() - 1; // Skip the rest of the digits in this number
         }
-        else{
-          for (int l = start_i-1; l < end_i+2; l++){
-            for (int m = start_j-1; m < end_j+2; m++){
-              if (l < 0 || l > 140 || m < 0 || m > 140){
-                std::cout << "out of range.. skipping \n";
-                continue;
-              }
-              if (is_symbol(A[l][m])){
-                symbol_found = true;
-                std::cout << "symbol found at l = " << l << " m = " << m << " = " << A[l][m] << "\n";
-              }
-            }
-          }
-        }
-
-        if (symbol_found){
-          std::cout << "Found a nearby symbol \n";
-          int number;
-          number = number + val; 
-
-          if (is_sec_val) number = number + sec_val;
-          if (is_thrd_val) number = number + thrd_val;
-
-          std::cout << number << "\n";
-        }
+        running_total += std::stoi(number);
+        std::cout << " Digit with adjacent symbol found at " << i << ", " << j << "\n";
+        std::cout << "  Running total = " << running_total << "\n";
       }
-      num_found = false;
     }
-    std::cout << "\n";
   }
+  std::cout << " final sum is " << running_total << "\n";
   return 0;
 }
 
@@ -168,15 +127,40 @@ bool is_digit(char x){
   }
 }
 
-bool is_symbol(char x){
-  std::cout << "     checking if symbol " << x << "\n";
-  if (x == 46){
+
+
+
+bool isSymbol(char ch) {
+    return (ch >= 33 && ch <= 48 && ch != '.') || ch == 47 || ch == 61 || ch == 64;
+}
+
+bool checkSurrounding(const std::vector<std::vector<char>>& matrix, int x, int y) {
+    if (matrix.empty() || matrix[0].empty()) return false;
+
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+
+    // Check if x, y is out of bounds
+    if (x < 0 || x >= rows || y < 0 || y >= cols) {
+        std::cout << "Given coordinates are out of bounds." << std::endl;
+        return false;
+    }
+
+    // Directions: Up, Down, Left, Right, and diagonals
+    int dx[] = {-1, 1, 0, 0, -1, -1, 1, 1};
+    int dy[] = {0, 0, -1, 1, -1, 1, -1, 1};
+
+    for (int i = 0; i < 8; ++i) {
+        int newX = x + dx[i];
+        int newY = y + dy[i];
+
+        // Check if the new coordinates are within the bounds
+        if (newX >= 0 && newX < rows && newY >= 0 && newY < cols) {
+            if (isSymbol(matrix[newX][newY])) {
+                return true;
+            }
+        }
+    }
+
     return false;
-  }
-  else if((x > 48) && (x < 58)){
-    return false;
-  }
-  else{
-    return true;
-  }
 }
