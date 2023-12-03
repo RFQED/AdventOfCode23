@@ -21,8 +21,8 @@ int main(){
     string line;
 
     while (getline(input_file, line)){
-      std::cout << "    \n"; 
-      std::cout << "line == " << line << "\n";
+      //logging std::cout << "    \n"; 
+      //logging std::cout << "line == " << line << "\n";
 
       vector<string> input_line = split_input_line(line, ":");
 
@@ -34,43 +34,43 @@ int main(){
       vector<string> game = split_input_line(input_line[1], ";");
       
       for (int i = 0; i < game.size(); i++){
-        std::cout << "  game[" << i << "] == '" << game[i] << "'\n";
+        //logging std::cout << "  game[" << i << "] == '" << game[i] << "'\n";
         vector<string> set = split_input_line(game[i], ",");
         map<string, int> colour_and_count; // string to int here
 
         for (int j=0; j < set.size(); j++){
           set[j].erase(0, 1);
-          std::cout << "    set [" << j << "] == '" << set[j] << "'\n";
+          //logging std::cout << "    set [" << j << "] == '" << set[j] << "'\n";
           vector<string> cubes = split_input_line(set[j], " ");
           //colour_and_count.insert({ cubes[0], cubes[1] });  // set cubes[1] to be an int
           colour_and_count[cubes[1]] = std::stoi(cubes[0]); // Use color as key and convert count to int
 
-          std::cout << "          cubes 0 = " << cubes[0] << " cubes 1 = " << cubes[1] << "\n";
+          //logging std::cout << "          cubes 0 = " << cubes[0] << " cubes 1 = " << cubes[1] << "\n";
         }
 
         // Condition is that the bag only has 12 red cubes, 13 green cubes, and 14 blue cubes
         // can see if game is possible from these numbers
         // add up the IDs of the games that would have been possible
-        std::cout << "        map size = " << colour_and_count.size() << "\n";
+        //logging std::cout << "        map size = " << colour_and_count.size() << "\n";
         for(auto it = colour_and_count.cbegin(); it != colour_and_count.cend(); ++it){
-          std::cout << "      '" << it->first << "' = '" << it->second << "'\n";
+          //logging std::cout << "      '" << it->first << "' = '" << it->second << "'\n";
 
           if (it->first == "red"){
             if (it->second > max_red){
               max_red = it->second;
-              std::cout << "        found new max red \n";
+              //logging std::cout << "        found new max red \n";
 
             }
           }
           if (it->first == "green"){
             if (it->second > max_green){
-              std::cout << "        found new max green \n";
+              //logging std::cout << "        found new max green \n";
               max_green = it->second;
             }
           }
           if (it->first == "blue"){
             if (it->second > max_blue){
-              std::cout << "        found new max blue \n";
+              //logging std::cout << "        found new max blue \n";
               max_blue = it->second;
             }
           }
@@ -78,10 +78,10 @@ int main(){
         colour_and_count.clear();
       }
 
-      std::cout << line << "\n";
-      std::cout << "Max Red = " << max_red << " - Max Green " << max_green << " - Max Blue " << max_blue << "\n";
+      //logging std::cout << line << "\n";
+      //logging std::cout << "Max Red = " << max_red << " - Max Green " << max_green << " - Max Blue " << max_blue << "\n";
       int cubed = max_red * max_green * max_blue;
-      std::cout << cubed << "\n";
+      //logging std::cout << cubed << "\n";
       //std::cout << "cubed = " << cubed << "\n";
       running_total += cubed;
     }
