@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 
@@ -24,15 +25,26 @@ int main(){
     string line;
     int row_num = 0;
     while (getline(input_file, line)){
-
       replace_all(line, "  ", " ");
+      //std::cout << "   fixed line = " << line << "\n";
 
       vector<string> card = split_input_line(line, ":");
       vector<string> numbers = split_input_line(card[1], "|");
-      vector<string> winning_numbers = split_input_line(numbers[0], " ");
-      vector<string> card_numbers = split_input_line(numbers[1], " ");
-  
+      vector<string> winning_numbers = split_input_line(numbers[0].erase(0, 1), " ");
+      vector<string> card_numbers = split_input_line(numbers[1].erase(0, 1), " ");
+      // removing the first char as its a space which gets split into a number to compare.
+      int matches_per_card = 0;
 
+      for (auto & winning_num : winning_numbers){
+        for (auto & card_num : card_numbers){
+          if (winning_num == card_num){
+            matches_per_card++;
+            std::cout << "Found a matching pair " << winning_num << " and " << card_num << "\n";  
+          }
+        }
+      }
+      int points = pow(2, matches_per_card-1);
+      running_total = running_total + points;
 
    }
   }
