@@ -118,9 +118,3 @@ vector<string> split_input_line(string line, string delim){
   }
   return game;
 } 
-
-
-bool check_if_colour_count_possible (string line){
-
-return true;
-}
