@@ -23,12 +23,11 @@ int part1(){
     getline(file, line);
     std::stringstream ss(line.substr(7, (line.end() - line.begin()) - 7));
     std::string val;
-    int oddseed = 0;
+
     while (getline(ss, val, ' ')) {
         if (val.size() > 0) {
             //std::cout << &seedword[0] << "\n";
             seeds.push_back(stol(&val[0], NULL, 10));
-            oddseed++;
         }
     }
 
