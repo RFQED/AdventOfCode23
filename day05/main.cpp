@@ -5,6 +5,7 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -30,7 +31,7 @@ int part1(){
             oddseed++;
         }
     }
-        
+
     int filler = 0;
     getline(file, line); // skip line
     
