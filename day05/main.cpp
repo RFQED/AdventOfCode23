@@ -15,7 +15,6 @@ int part2();
 int part1(){
     std::string line;
     std::fstream file("inputs.txt");
-    int lines = 1;
     
     std::vector<long> seeds; // intial seed numbers
 
@@ -33,14 +32,11 @@ int part1(){
 
     int filler = 0;
     getline(file, line); // skip line
-    
-    int lineCount = 0;
+
     // Each tuple in a vector is the conversion rule with: destination start, source start, range length
     std::vector<std::vector<std::tuple<long, long, long>>> filters(7);
 
     while (getline(file, line)) {
-        lines++;
-
         if (line.size() == 0) {
             filler++;
             getline(file, line);
