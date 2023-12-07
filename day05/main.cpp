@@ -15,7 +15,6 @@ int part2();
 int part1(){
     std::string line;
     std::fstream file("inputs.txt");
-    
     std::vector<long> seeds; // intial seed numbers
 
     // reading initial seed numbers
