@@ -79,7 +79,7 @@ int part1(){
 
     sort(four_kind.begin(), four_kind.end(), comparePairs);
     sort(full_house.begin(), full_house.end(), comparePairs);
-    sort(three_kind.begin(), five_kind.end(), comparePairs);
+    sort(three_kind.begin(), three_kind.end(), comparePairs);
     sort(two_pair.begin(), two_pair.end(), comparePairs);
     sort(one_pair.begin(), one_pair.end(), comparePairs);
     sort(high_card.begin(), high_card.end(), comparePairs);
