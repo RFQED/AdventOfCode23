@@ -34,7 +34,6 @@ int part1(){
 
     int total = 1;
     // MAKE A VECTOR OF TIMES 
-    // I IN RANGE (0 - MAX TIME)
     // DISTANCE = (I - MAX_TIME) * I 
     for (int i = 0; i < time.size(); i++){
 
@@ -45,9 +44,11 @@ int part1(){
         //vector<int> boats(max_time);
         int winning_boats = 0;
 
+        // could do it a neat way where the first time you reach > max distance you break and go up to max distance and scan down 
+        // then find n diff between min and max crossing points
         for (int j = 1; j <= max_time; j++ ){
             //std::cout << "    i is " << i << " j is " << j << " max distance was " << max_distance << " travelled distance is " <<  (max_time - j) * j << " \n";
-            if (((max_time - j) * j) > max_distance){
+            if (((max_time - j) * j) > max_distance){ 
                 winning_boats++;
             }
         }
