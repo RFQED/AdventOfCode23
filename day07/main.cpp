@@ -296,8 +296,13 @@ std::tuple<int, int> classify_string_part2(const string& s) {
     int joker_count = 0;
     // Count the frequency of each character
     for (char ch : s) {
-        freq[ch]++;
-        if (ch == 'J') joker_count++;
+        // freq[ch]++;
+        if (ch == 'J'){
+            joker_count++;
+        }
+        else{
+            freq[ch]++;
+        }
     }
 
     int maxCount = 0, secondMaxCount = 0;
