@@ -102,7 +102,7 @@ int part1(){
 
     long total = 0;
     for(int i = 0; i < all_hands.size(); i++){
-        std::cout << all_hands[i].first << " " <<  all_hands[i].second << "\n";
+        //std::cout << all_hands[i].first << " " <<  all_hands[i].second << "\n";
         total += (all_hands[i].second * (i+1));
     }
     std::cout << total << "\n";
