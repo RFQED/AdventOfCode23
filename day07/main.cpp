@@ -69,20 +69,65 @@ int part1(){
     std::cout << " three = "  << three_kind.size() <<  " \n";
     std::cout << " two = "  << two_pair.size() <<  " \n";
     std::cout << " one = "  << one_pair.size() <<  " \n";
-    std::cout << " five = "  << high_card.size() <<  " \n";
+    std::cout << " high = "  << high_card.size() <<  " \n";
 
     // Sort the vector using the custom comparison function
     sort(five_kind.begin(), five_kind.end(), comparePairs);
-    for (const auto& five : five_kind) {
-        cout << five.first << " = " << five.second << "\n";
-    }
-
     sort(four_kind.begin(), four_kind.end(), comparePairs);
     sort(full_house.begin(), full_house.end(), comparePairs);
     sort(three_kind.begin(), three_kind.end(), comparePairs);
     sort(two_pair.begin(), two_pair.end(), comparePairs);
     sort(one_pair.begin(), one_pair.end(), comparePairs);
     sort(high_card.begin(), high_card.end(), comparePairs);
+
+    long five_total = 0;
+    for(int i = 0; i < five_kind.size(); i++){
+        five_total = five_total + (five_kind[i].second * (i+1));
+    }
+    std::cout << five_total << "\n";
+
+    long four_total = 0;
+    for(int i = 0; i < four_kind.size(); i++){
+        four_total = four_total + (four_kind[i].second * (i+1));
+    }
+    std::cout << four_total << "\n";
+
+    long full_house_total = 0;
+    for (int i = 0; i < full_house.size(); i++) {
+        full_house_total += (full_house[i].second * (i + 1));
+    }
+    std::cout << full_house_total << "\n";
+
+    // Calculating total for three_kind
+    long three_total = 0;
+    for (int i = 0; i < three_kind.size(); i++) {
+        three_total += (three_kind[i].second * (i + 1));
+    }
+    std::cout << three_total << "\n";
+
+    // Calculating total for two_pair
+    long two_total = 0;
+    for (int i = 0; i < two_pair.size(); i++) {
+        two_total += (two_pair[i].second * (i + 1));
+    }
+    std::cout << two_total << "\n";
+
+    // Calculating total for one_pair
+    long one_total = 0;
+    for (int i = 0; i < one_pair.size(); i++) {
+        one_total += (one_pair[i].second * (i + 1));
+    }
+    std::cout << one_total << "\n";
+
+    // Calculating total for high_card
+    long high_total = 0;
+    for (int i = 0; i < high_card.size(); i++) {
+        high_total += (high_card[i].second * (i + 1));
+    }
+    std::cout << high_total << "\n";
+
+    long total_total = five_total + four_total + full_house_total + three_total + two_total + one_total + high_total;
+    std::cout << "Total total = " << total_total << "\n";
 
     return 0;
 }
