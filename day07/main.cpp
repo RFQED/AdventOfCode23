@@ -71,6 +71,11 @@ int part1(){
     std::cout << " one = "  << one_pair.size() <<  " \n";
     std::cout << " high = "  << high_card.size() <<  " \n";
 
+    // std::cout << "Before sorting \n";
+    // for (const auto& three : three_kind) {
+    //     cout << three.first << " = " << three.second << endl;
+    // }
+
     // Sort the vector using the custom comparison function
     sort(five_kind.begin(), five_kind.end(), comparePairs);
     sort(four_kind.begin(), four_kind.end(), comparePairs);
@@ -80,18 +85,25 @@ int part1(){
     sort(one_pair.begin(), one_pair.end(), comparePairs);
     sort(high_card.begin(), high_card.end(), comparePairs);
 
+    // std::cout << "After sorting \n";
+    // for (const auto& three : three_kind) {
+    //     cout << three.first << " = " << three.second << "\n";
+    // }
+    // std::cout << "\n ";
+
     std::vector<pair<string, int>> all_hands;
-    all_hands.insert(all_hands.end(), five_kind.begin(), five_kind.end());
-    all_hands.insert(all_hands.end(), four_kind.begin(), four_kind.end());
-    all_hands.insert(all_hands.end(), full_house.begin(), full_house.end());
-    all_hands.insert(all_hands.end(), three_kind.begin(), three_kind.end());
-    all_hands.insert(all_hands.end(), two_pair.begin(), two_pair.end());
-    all_hands.insert(all_hands.end(), one_pair.begin(), one_pair.end());
     all_hands.insert(all_hands.end(), high_card.begin(), high_card.end());
+    all_hands.insert(all_hands.end(), one_pair.begin(), one_pair.end());
+    all_hands.insert(all_hands.end(), two_pair.begin(), two_pair.end());
+    all_hands.insert(all_hands.end(), three_kind.begin(), three_kind.end());
+    all_hands.insert(all_hands.end(), full_house.begin(), full_house.end());
+    all_hands.insert(all_hands.end(), four_kind.begin(), four_kind.end());
+    all_hands.insert(all_hands.end(), five_kind.begin(), five_kind.end());
 
     long total = 0;
     for(int i = 0; i < all_hands.size(); i++){
-        total = total + (all_hands[i].second * (i+1));
+        std::cout << all_hands[i].first << " " <<  all_hands[i].second << "\n";
+        total += (all_hands[i].second * (i+1));
     }
     std::cout << total << "\n";
 
@@ -119,8 +131,10 @@ bool comparePairs(const pair<string, int>& a, const pair<string, int>& b) {
     };
 
     for (int i = 0; i < a.first.length() && i < b.first.length(); ++i) {
-        if (rank[a.first[i]] != rank[b.first[i]])
+        if (rank[a.first[i]] != rank[b.first[i]]){
+            bool result = rank[a.first[i]] < rank[b.first[i]];
             return rank[a.first[i]] < rank[b.first[i]];
+        }
     }
     return a.first.length() < b.first.length();
 }
