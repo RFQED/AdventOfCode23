@@ -69,7 +69,7 @@ int part1(){
 int part2(){
 
     //   think a map of pairs is the best data type
-    string filename = "inputs_2.txt";
+    string filename = "inputs.txt";
 
     fstream input_file;
     input_file.open(filename, ios::in);
