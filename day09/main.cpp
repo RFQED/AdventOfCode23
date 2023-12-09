@@ -52,7 +52,6 @@ int part1(){
 
         // The next number in the original sequence
         int nextNumber = diffs[0].back();
-        //std::cout << "The next number in the series is: " << nextNumber << std::endl;
         //cin.get(); debug
         total += nextNumber;
     }
@@ -69,12 +68,60 @@ int part1(){
 
 int part2(){
 
+    //   think a map of pairs is the best data type
+    string filename = "inputs_2.txt";
+
+    fstream input_file;
+    input_file.open(filename, ios::in);
+
+    int line_num = 0;
+    string line;
+    vector<int> original;
+
+    long long total = 0;
+
+    while (std::getline(input_file, line)) {
+        original = split_input_line_ints(line, " ");
+
+        std::vector<std::vector<int>> diffs;
+        diffs.push_back(original);
+
+        // Generating difference levels
+        while (true) {
+            std::vector<int> currentLevel = diffs.back();
+            std::vector<int> nextLevel;
+            bool allZeros = true;
+            for (int i = 0; i < currentLevel.size() - 1; i++) {
+                int diff = currentLevel[i + 1] - currentLevel[i];
+                nextLevel.push_back(diff);
+                if (diff != 0) allZeros = false;
+            }
+            diffs.push_back(nextLevel);
+            if (allZeros || nextLevel.empty()) break;
+        }
+
+        // Extrapolating the preceding number
+        for (int level = diffs.size() - 2; level >= 0; level--) {
+            diffs[level].insert(diffs[level].begin(), diffs[level].front() - diffs[level + 1].front());
+        }
+
+        // The number that precedes the original sequence
+        int prevNumber = diffs[0].front();
+        //cin.get(); debug
+        total += prevNumber;
+    }
+
+    input_file.close();
+
+    std::cout << "The grand total (prev) is " << total << "\n";
+
+
     return 0;
 }
 
 int main() {
-    part1();
-    //    part2();
+    //part1();
+    part2();
 }
 
 vector<string> split_input_line(string line, string delim){
