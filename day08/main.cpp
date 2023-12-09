@@ -4,10 +4,12 @@
 #include <vector>
 #include <map>
 
-
 using namespace std;
 vector<string> split_input_line(string line, string delim);
 
+long long lcm(long long a, long long b);
+long long findLCM(const std::vector<int>& nums);
+long long gcd(long long a, long long b);
 
 int part1();
 int part2();
@@ -151,6 +153,8 @@ int part2(){
 
     input_file.close();
 
+    vector<int> path_lengths;
+
     for (int i = 0; i < starting_point.size(); i++){
         pair<string, string> next_step = maze.find(starting_point[i])->second;
         std::cout << "starting at " << starting_point[i] << "\n";
@@ -181,10 +185,12 @@ int part2(){
             }
             //cin.get(); // debug 
         }
+        path_lengths.push_back(step_count);
         std::cout << "Starting Point " << i << " has a step count == " << step_count << "\n";
 
     }
-
+    long long result = findLCM(path_lengths);
+    std::cout << "total is " << result << "\n";
     return 0;
 }
 
@@ -214,3 +220,26 @@ vector<string> split_input_line(string line, string delim){
   }
   return game;
 } 
+
+
+long long lcm(long long a, long long b) {
+    return (a / gcd(a, b)) * b;
+}
+
+long long findLCM(const std::vector<int>& nums) {
+    long long result = nums[0];
+    for (int num : nums) {
+        result = lcm(result, num);
+        if (result == 0) break;
+    }
+    return result;
+}
+
+long long gcd(long long a, long long b) {
+    while (b != 0) {
+        long long t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
