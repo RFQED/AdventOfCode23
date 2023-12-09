@@ -91,6 +91,13 @@ int part1(){
 
 
 int part2(){
+    // i think we have to follow every thread until we step to zzz at the same time for each thread
+    // assuming this is possible we can solve each maze and use the 
+    // path length for each maze to work out when they'll all reach the end at hte same time, stepping forward by 
+    // the path length for each until we hit a common value rather than endless maze solve.
+    // So -> solve path for each of the different threads 
+    // count, n, the required steps for each thread
+    // find the lowest common multiple of n?
     return 0;
 }
 
