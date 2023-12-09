@@ -2,12 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <algorithm>
-#include <regex>
-#include <tuple>
 #include <map>
-#include <typeinfo>
 
 
 using namespace std;
@@ -95,16 +90,8 @@ int part1(){
 
 
 
-
-
-
-
-
-
-
-
 int part2(){
-
+    return 0;
 }
 
 int main() {
