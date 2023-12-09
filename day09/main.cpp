@@ -14,7 +14,7 @@ int part2();
 
 int part1(){
     //   think a map of pairs is the best data type
-    string filename = "inputs_2.txt";
+    string filename = "inputs.txt";
 
     fstream input_file;
     input_file.open(filename, ios::in);
@@ -52,14 +52,14 @@ int part1(){
 
         // The next number in the original sequence
         int nextNumber = diffs[0].back();
-        std::cout << "The next number in the series is: " << nextNumber << std::endl;
-        cin.get();
-
+        //std::cout << "The next number in the series is: " << nextNumber << std::endl;
+        //cin.get(); debug
+        total += nextNumber;
     }
 
-    
     input_file.close();
 
+    std::cout << "The grand total is " << total << "\n";
 
 
     return 0;
